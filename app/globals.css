@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, sans-serif;
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --accent: #FFD700;
 }
+
+html, body { height: 100%; }
+body { @apply min-h-screen text-secondary bg-brand-gradient antialiased; }
+
+.card { @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-xl; }
+.btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 font-medium; }
+.btn-primary { @apply bg-secondary text-primary hover:opacity-90; }
+.btn-ghost { @apply bg-transparent text-secondary border border-white/20 hover:bg-white/10; }
+.badge { @apply text-xs px-2 py-1 rounded-md bg-accent/20 text-accent; }
+
+a { @apply hover:text-accent; }
+.brand-underline { background: linear-gradient(90deg, var(--accent), transparent); height: 3px; border-radius: 999px; }

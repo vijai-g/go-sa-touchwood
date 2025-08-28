@@ -1,32 +1,30 @@
-import './globals.css';
-import Link from 'next/link';
+import './globals.css'
+import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
+import { Toaster } from 'react-hot-toast'
+import type { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Go Sa Touchwood',
-  description: 'Food E-commerce'
-};
+  description: 'Handcrafted wood, minimal aesthetics, daily utility.',
+  metadataBase: new URL('https://gosatouchwood.com'),
+  openGraph: {
+    title: 'Go Sa Touchwood',
+    description: 'Handcrafted wood, minimal aesthetics, daily utility.',
+    type: 'website'
+  },
+  icons: { icon: '/favicon.ico' }
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-white text-black">
-        <header className="p-4 bg-yellow-400 text-black flex justify-between">
-          <h1 className="font-bold">Go Sa Touchwood</h1>
-          <nav className="space-x-4">
-            <Link href="/">Home</Link>
-            <Link href="/shop">Shop</Link>
-            <Link href="/about">About</Link>
-            <Link href="/contact">Contact</Link>
-          </nav>
-        </header>
-        <main className="p-6">{children}</main>
-        <a
-          href="https://wa.me/1234567890"
-          className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
-        >
-          WhatsApp
-        </a>
+      <body>
+        <Header />
+        <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
+        <Footer />
+        <Toaster position="top-right" />
       </body>
     </html>
-  );
+  )
 }

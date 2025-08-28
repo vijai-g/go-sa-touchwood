@@ -1,25 +1,35 @@
-# go sa touchwood - Local Dev
+# Go Sa Touchwood (Free, Prod-ready)
 
-This is a starter Next.js 13 (App Router) TypeScript project scaffold for the "go sa touchwood" e-commerce site.
+Next.js 14 + TypeScript + Tailwind + NextAuth (credentials) + Neon Postgres (free) + optional Stripe. Black/white minimal with gold accent and rich gradients.
 
-## Quick start (local)
+## Quick Start (Local)
+```bash
+pnpm i        # or npm/yarn
+cp .env.example .env.local  # fill NEON_DATABASE_URL, NEXTAUTH_SECRET, NEXT_PUBLIC_WHATSAPP_URL
+# Create Neon DB and run the SQL:
+#   open db/schema.sql in Neon SQL editor and run it
+pnpm dev
+```
 
-1. Copy `.env.example` to `.env.local` and set values (NEXTAUTH_SECRET, STRIPE keys).
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Seed data (creates `data/users.json`, `data/products.json`, `data/orders.json`):
-   ```bash
-   npm run seed
-   ```
-4. Run dev server:
-   ```bash
-   npm run dev
-   ```
-5. Default admin:
-   - Email: `admin@gosatouchwood.com`
-   - Password: `password123`
+### Admin Login
+- email: admin@gosatouchwood.com
+- password: password
 
-Stripe is configured conceptually for **test mode only**. Replace keys in `.env.local`.
+## Deploy on Vercel (₹0)
+1. Create a Neon DB (free) → copy `NEON_DATABASE_URL`.
+2. Run `db/schema.sql` in Neon to create tables + seed.
+3. In Vercel → Project → Settings → Environment Variables, set:
+   - `NEON_DATABASE_URL`
+   - `NEXTAUTH_SECRET` (strong random)
+   - `PAYMENTS_MODE=cod`
+   - `NEXT_PUBLIC_WHATSAPP_URL=https://wa.me/<YOUR_NUMBER>?text=Hi%20GoSaTouchwood`
+4. Push this repo to GitHub.
+5. Import in Vercel → Deploy.
 
+## Payments
+- Default = COD/UPI manual (free). Orders persist in `orders` table with `status='pending'`.
+- To enable Stripe later: set `PAYMENTS_MODE=stripe` and implement the Stripe session in `app/api/checkout/route.ts` (the scaffold is present).
+
+## Notes
+- Rate-limiter in `middleware.ts` is best-effort (free, ephemeral). For stronger limits, add Upstash Redis (has free tier).
+- Replace or extend Admin CRUD as needed.

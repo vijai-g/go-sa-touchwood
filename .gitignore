@@ -1,4 +1,4 @@
-node_modules
 .next
-.env.local
-data
+node_modules
+.env*
+.vercel
