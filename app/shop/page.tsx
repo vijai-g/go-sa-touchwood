@@ -1,28 +1,29 @@
-'use client'
-import { useEffect, useState } from 'react'
+import fs from 'fs';
+import path from 'path';
 
-type Product = { id:string, name:string, description:string, price:number, image:string, available:boolean }
-export default function Shop(){
-  const [products, setProducts] = useState<Product[]>([])
-  useEffect(()=>{ fetch('/api/products').then(r=>r.json()).then(setProducts) },[])
-  return (<div>
-    <h2>Shop</h2>
-    <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:16}}>
-      {products.map(p=>(
-        <div key={p.id} style={{border:'1px solid #eee', padding:12, borderRadius:8}}>
-          <img src={p.image} alt={p.name} style={{width:'100%', height:140, objectFit:'cover'}}/>
-          <h3>{p.name}</h3>
-          <p>{p.description}</p>
-          <div>₹{p.price}</div>
-          <button onClick={()=>{
-            const cart = JSON.parse(localStorage.getItem('cart')||'[]');
-            const idx = cart.findIndex((x:any)=>x.id===p.id);
-            if(idx>-1) cart[idx].qty+=1; else cart.push({...p, qty:1});
-            localStorage.setItem('cart', JSON.stringify(cart));
-            alert('Added to cart');
-          }}>Add to cart</button>
-        </div>
-      ))}
+type Product = { id: string, name: string, price: number, image: string };
+
+async function getProducts(): Promise<Product[]> {
+  const filePath = path.join(process.cwd(), 'data', 'products.json');
+  const data = await fs.promises.readFile(filePath, 'utf-8');
+  return JSON.parse(data);
+}
+
+export default async function Shop() {
+  const products = await getProducts();
+  return (
+    <div>
+      <h2 className="text-2xl font-bold">Shop</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        {products.map((p) => (
+          <div key={p.id} className="border p-4 rounded shadow">
+            <img src={p.image} alt={p.name} className="w-full h-40 object-cover"/>
+            <h3 className="text-lg font-bold">{p.name}</h3>
+            <p>${p.price}</p>
+            <button className="bg-yellow-400 px-3 py-1 rounded mt-2">Add to Cart</button>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>)
+  );
 }

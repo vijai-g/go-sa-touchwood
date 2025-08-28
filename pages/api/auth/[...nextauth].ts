@@ -1,39 +1,34 @@
-import NextAuth from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import path from 'path'
-import fs from 'fs'
-import bcrypt from 'bcryptjs'
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcryptjs';
+
+const users = [
+  { id: '1', name: 'Admin', email: 'admin@example.com', password: bcrypt.hashSync('admin123', 10), role: 'admin' },
+  { id: '2', name: 'User', email: 'user@example.com', password: bcrypt.hashSync('user123', 10), role: 'user' }
+];
 
 export default NextAuth({
   providers: [
     CredentialsProvider({
       name: 'Credentials',
-      credentials: {
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' }
-      },
-      async authorize(credentials){
-        const usersFile = path.join(process.cwd(),'data','users.json')
-        if (!fs.existsSync(usersFile)) return null
-        const users = JSON.parse(fs.readFileSync(usersFile,'utf8'))
-        const user = users.find((u:any)=>u.email===credentials?.email)
-        if (!user) return null
-        const ok = await bcrypt.compare(credentials?.password || '', user.passwordHash)
-        if (!ok) return null
-        return { id: user.userId, email: user.email, role: user.role }
+      credentials: { email: {}, password: {} },
+      async authorize(credentials) {
+        const user = users.find(u => u.email === credentials?.email);
+        if (user && bcrypt.compareSync(credentials!.password, user.password)) {
+          return user;
+        }
+        return null;
       }
     })
   ],
-  session: { strategy: 'jwt', maxAge: 24*60*60 },
-  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user }){
-      if (user) token.role = (user as any).role
-      return token
+    async jwt({ token, user }) {
+      if (user) token.role = (user as any).role;
+      return token;
     },
-    async session({ session, token }){
-      (session as any).user.role = token.role
-      return session
+    async session({ session, token }) {
+      if (token) (session.user as any).role = token.role;
+      return session;
     }
   }
-})
+});
