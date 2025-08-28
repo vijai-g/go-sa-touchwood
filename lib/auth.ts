@@ -1,13 +1,11 @@
 import NextAuth, { NextAuthConfig } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
-import Google from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
 import { sql } from '@/lib/db'
 
 export const authConfig: NextAuthConfig = {
   session: { strategy: 'jwt', maxAge: 60 * 60 * 24 },
   providers: [
-    Google,
     Credentials({
       name: 'credentials',
       credentials: { email: {}, password: {} },
