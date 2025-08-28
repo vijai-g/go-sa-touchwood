@@ -11,7 +11,7 @@ export const authConfig: NextAuthConfig = {
       credentials: { email: {}, password: {} },
       async authorize(creds){
         const { email, password } = creds as { email: string; password: string }
-        const rows = await sql`select user_id, email, password_hash, role from users where email = ${email} limit 1` as any
+        const rows = await sql`select user_id, email, password_hash, role from users where lower(email) = lower(${email}) limit 1` as any
         const u = rows[0]
         if (!u) return null
         const ok = await bcrypt.compare(password, u.password_hash)
