@@ -1,14 +1,15 @@
-export function Footer(){
+// components/Footer.tsx
+export function Footer() {
   return (
-    <footer className="mt-16 border-t border-white/10">
-      <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-white/60 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div>© {new Date().getFullYear()} Go Sa Touchwood</div>
-        <div className="flex items-center gap-4">
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-          <a href="/shop">Shop</a>
-        </div>
+    <footer className="relative border-t border-white/10 bg-black/40">
+      {/* gradient halo rising upwards, but behind everything */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 -top-24 h-24 -z-10 bg-gradient-to-t from-amber-500/10 to-transparent"
+      />
+      <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-white/60">
+        © {new Date().getFullYear()} Go Sa Touchwood
       </div>
     </footer>
-  )
+  );
 }
