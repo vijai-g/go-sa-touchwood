@@ -1,12 +1,14 @@
 import type { Config } from 'tailwindcss'
+
 export default {
   content: ['./app/**/*.{ts,tsx}','./components/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        primary:   'var(--color-primary)',
-        secondary: 'var(--color-secondary)',
-        accent:    'var(--color-accent)',
+        // now /20 etc. will work: bg-accent/20, text-secondary/80...
+        primary:   'rgb(var(--color-primary) / <alpha-value>)',
+        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+        accent:    'rgb(var(--color-accent) / <alpha-value>)',
       },
       backgroundImage: {
         'brand-gradient':
