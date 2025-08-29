@@ -1,4 +1,4 @@
-// app/api/orders/route.ts
+//app/api/orders/route.ts
 import { NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { auth } from '@/lib/auth'
