@@ -13,7 +13,9 @@ img { max-width: 100%; height: auto; display: block; }
 html, body { height: 100%; }
 body { @apply min-h-screen text-secondary bg-brand-gradient antialiased; }
 
-.card { @apply rounded-2xl bg-white/5 border border-white/10 shadow-lg; }
+/* globals.css */
+.card { @apply rounded-2xl bg-neutral-900 border border-white/10 shadow-lg; }
+
 .btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 font-medium; }
 .btn-primary { @apply bg-secondary text-primary hover:opacity-90; }
 .btn-ghost { @apply bg-transparent text-secondary border border-white/20 hover:bg-white/10; }
