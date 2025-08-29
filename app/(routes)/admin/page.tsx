@@ -1,16 +1,28 @@
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import HomeEditor from '@/components/HomeEditor'
+import Link from 'next/link'
+import { AdminDashboard } from '@/components/AdminDashboard'
 
-export default async function AppearancePage() {
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
+export default async function AdminPage() {
   const session = await auth()
   if (!session || (session as any).role !== 'admin') redirect('/')
+
   return (
-    <section className="mx-auto max-w-3xl">
-      <div className="rounded-2xl bg-neutral-900 border border-white/10 shadow-lg p-6 md:p-8">
-        <h1 className="text-2xl font-bold mb-6">Appearance — Home</h1>
-        <HomeEditor />
+    <section className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Admin</h1>
+        <div className="flex gap-2">
+          <Link href="/admin/appearance" className="btn btn-ghost">
+            Appearance
+          </Link>
+        </div>
       </div>
+
+      {/* 👉 This is the products CRUD UI with Add/Edit/Delete */}
+      <AdminDashboard />
     </section>
   )
 }
