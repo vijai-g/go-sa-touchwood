@@ -13,15 +13,29 @@ export async function generateMetadata() {
 
 // optional helper to accent just the word “Touchwood”
 function Title({ text }: { text: string }) {
-  const lc = text.toLowerCase()
+  const t = (text ?? '').trim()
+  if (!t) return null
+
+  // 1) If title contains “Touchwood” (any case), accent just that piece
+  const lc = t.toLowerCase()
   const needle = 'touchwood'
   const i = lc.indexOf(needle)
-  if (i === -1) return <>{text}</>
-  const before = text.slice(0, i)
-  const match = text.slice(i, i + needle.length)
-  const after = text.slice(i + needle.length)
-  return <>{before}<span className="text-accent">{match}</span>{after}</>
+  if (i !== -1) {
+    const before = t.slice(0, i)
+    const match  = t.slice(i, i + needle.length)
+    const after  = t.slice(i + needle.length)
+    return <>{before}<span className="text-accent">{match}</span>{after}</>
+  }
+
+  // 2) Otherwise, accent the last word
+  const parts = t.split(/\s+/)
+  const last = parts.pop()!
+  return <>
+    {parts.length ? parts.join(' ') + ' ' : ''}
+    <span className="text-accent">{last}</span>
+  </>
 }
+
 
 export default async function HomePage() {
   const s = await getHomeSettings()
