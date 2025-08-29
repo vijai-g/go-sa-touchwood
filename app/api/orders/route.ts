@@ -1,6 +1,9 @@
 // app/api/orders/route.ts
 import { NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
+import { auth } from '@/lib/auth'
+
+export const dynamic = 'force-dynamic'
 
 function makeOrderCode() {
   const d = new Date()
@@ -11,11 +14,12 @@ function makeOrderCode() {
   return `GOSA-${yy}${mm}${dd}-${rnd}`
 }
 
+// POST /api/orders  -> create order
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null)
   if (!body) return NextResponse.json({ ok:false, error:'Bad JSON' }, { status:400 })
 
-  // normalize both shapes
+  // normalize both shapes coming from client
   const name    = (body.name ?? body.customerName ?? '').trim()
   const phone   = (body.phone ?? body.customerPhone ?? '').trim()
   const address = (body.address ?? body.customerAddress ?? '').trim()
@@ -30,21 +34,52 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok:false, error:'Missing fields' }, { status:400 })
   }
 
+  const session = await auth()
+  const customerEmail = session?.user?.email ?? body.customerEmail ?? null
+
   const orderId = String(body.orderId || makeOrderCode())
   const itemsJson = JSON.stringify(items)
 
-  // insert; cast items to jsonb
+  // insert; cast items to jsonb (Neon-safe)
   const rows = await sql/*sql*/`
     insert into orders
-      (order_id, customer_id, customer_name, customer_phone, customer_address,
-       items, subtotal, total, status, created_at)
+      (order_id, customer_id, customer_email, customer_name, customer_phone, customer_address,
+       items, subtotal, total, status, created_at, delivery_slot)
     values
-      (${orderId}, ${customerId}, ${name}, ${phone}, ${address},
-       ${itemsJson}::jsonb, ${subtotal}, ${total}, ${status}, now())
+      (${orderId}, ${customerId}, ${customerEmail}, ${name}, ${phone}, ${address},
+       ${itemsJson}::jsonb, ${subtotal}, ${total}, ${status}, now(), ${deliverySlot})
     on conflict (order_id) do nothing
     returning order_id
   ` as any
 
   const finalId = rows?.[0]?.order_id || orderId
   return NextResponse.json({ ok:true, orderId: finalId })
+}
+
+// GET /api/orders  -> list orders (admin only; used by Admin OrdersTable)
+export async function GET() {
+  const session = await auth()
+  if (!session || (session as any).role !== 'admin') {
+    return NextResponse.json({ ok:false, error:'Unauthorized' }, { status:401 })
+  }
+
+  const rows = await sql/*sql*/`
+    select
+      order_id         as "orderId",
+      customer_id      as "customerId",
+      customer_email   as "customerEmail",
+      customer_name    as "customerName",
+      customer_phone   as "customerPhone",
+      customer_address as "customerAddress",
+      items,
+      subtotal,
+      total,
+      status,
+      created_at       as "createdAt",
+      delivery_slot    as "deliverySlot"
+    from orders
+    order by created_at desc
+  ` as any
+
+  return NextResponse.json(rows ?? [])
 }
