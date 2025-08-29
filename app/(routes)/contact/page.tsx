@@ -1,10 +1,12 @@
-export default function Contact(){
+import ContactForm from '@/components/ContactForm';
+
+export default async function ContactPage() {
   return (
-    <form className="card p-6 space-y-4 max-w-xl">
-      <h1 className="text-xl font-semibold">Contact</h1>
-      <input placeholder="Email" className="px-4 py-3 rounded-xl bg-white/10" />
-      <textarea placeholder="Message" className="px-4 py-3 rounded-xl bg-white/10 min-h-40" />
-      <button className="btn btn-primary w-fit">Send</button>
-    </form>
-  )
+    <section className="mx-auto max-w-3xl">
+      <div className="rounded-2xl bg-neutral-900 border border-white/10 shadow-lg p-6 md:p-8">
+        <h1 className="text-2xl font-bold mb-6">Contact</h1>
+        <ContactForm />
+      </div>
+    </section>
+  );
 }
