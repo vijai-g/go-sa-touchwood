@@ -33,3 +33,11 @@ a { @apply hover:text-accent; }
   background-image: linear-gradient(90deg, #FFD700, rgba(255,215,0,.35));
 }
 
+/* Make Tailwind's bg-brand-gradient behave like a single backdrop */
+.bg-brand-gradient{
+  background-repeat: no-repeat;      /* stop vertical repeat */
+  background-position: top center;   /* anchor to top */
+  background-attachment: fixed;      /* stays put on scroll */
+}
+
+
