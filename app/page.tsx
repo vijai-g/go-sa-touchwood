@@ -2,6 +2,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getHomeSettings } from '@/lib/settings'
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function HomePage() {
   const s = await getHomeSettings()
 
