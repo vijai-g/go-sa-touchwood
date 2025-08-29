@@ -22,7 +22,7 @@ export default async function Header() {
           <Link href="/shop">Shop</Link>
           <Link href="/about">About</Link>
           <Link href="/contact">Contact</Link>
-          {isAuthed && <Link href="/myorders">My Orders</Link>}
+{/*           {isAuthed && <Link href="/myorders">My Orders</Link>} */}
         </nav>
 
         <div className="flex items-center gap-3">
