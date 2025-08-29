@@ -16,7 +16,6 @@ export default async function Header() {
       <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl">
           <img src={`/logo.svg?v=${v}`} alt="Go Sa Touchwood" className="h-10 md:h-12 w-auto" />
-          <span className="text-accent">Touchwood</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-white/80">
