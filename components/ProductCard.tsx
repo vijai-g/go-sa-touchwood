@@ -9,7 +9,7 @@ export function ProductCard({ product }: { product: Product }) {
   const src = product.image?.startsWith('/') ? product.image : `/${product.image}`
 
   return (
-    <div className="rounded-2xl overflow-hidden bg-white/5 border border-white/10 shadow-lg">
+    <div className="rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 shadow-lg">
       {/* FIT: fixed-height box, no clipping, full image visible */}
       <div className="relative w-full h-56 sm:h-64 bg-black/20">
         <Image
