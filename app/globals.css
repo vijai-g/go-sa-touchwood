@@ -1,8 +1,14 @@
+/* globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Solid site background (prevents bleed under cards) */
+body { @apply bg-neutral-950 text-white; }
+
+/* (optional) generic image safety */
 img { max-width: 100%; height: auto; display: block; }
+
 
 :root {
   --bg: #000;
