@@ -1,11 +1,15 @@
-/* globals.css */
+/* app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ---- Base ---- */
-html, body { height: 100%; }
+/* ---- Defaults / vars ---- */
+:root {
+  /* Used for non-Tailwind CSS (color-mix, etc.) */
+  --accent: #FFD700;
+}
 
+html, body { height: 100%; }
 
 /* Solid site background (no gradient on body) */
 body {
@@ -21,21 +25,24 @@ img { max-width: 100%; height: auto; display: block; }
 .btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 font-medium; }
 .btn-primary { @apply bg-secondary text-primary hover:opacity-90; } /* white bg, black text */
 .btn-ghost { @apply bg-transparent text-secondary border border-white/20 hover:bg-white/10; }
-.badge { @apply text-xs px-2 py-1 rounded-md bg-accent/20 text-accent border border-accent/30; }
 
-
+/* No Tailwind /opacity on custom colors: use color-mix instead */
+.badge{
+  @apply text-xs px-2 py-1 rounded-md text-accent;
+  background-color: color-mix(in oklab, var(--accent) 20%, transparent);
+  border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+}
 
 a { @apply hover:text-accent; }
 
-/* Accent underline used in hero */
+/* Subtle accent underline (hero) */
 .brand-underline {
   height: 4px; border-radius: 9999px;
-  background-image: linear-gradient(90deg, #FFD700, rgba(255,215,0,.35));
+  background-image: linear-gradient(90deg, var(--accent), color-mix(in oklab, var(--accent) 35%, transparent));
 }
 
-/* Make Tailwind's bg-brand-gradient behave like a single backdrop.
-   Only use this class on specific sections (e.g., Home hero), NOT on <body>. */
-.bg-brand-gradient {
+/* Gradient utility – use on sections (NOT on <body>) */
+.bg-brand-gradient{
   background-repeat: no-repeat;
   background-position: top center;
   background-attachment: fixed;
