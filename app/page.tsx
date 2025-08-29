@@ -14,7 +14,7 @@ export default function HomePage(){
         <div className="brand-underline w-40" />
       </div>
       <div className="card p-2">
-        <Image src="/images/chair.jpg" alt="Classic Wooden Chair" width={1200} height={900} className="rounded-2xl object-cover" />
+        <Image src="/images/GoSaHero.png" alt="Classic Wooden Chair" width={1200} height={900} className="rounded-2xl object-cover" />
       </div>
     </section>
   )
