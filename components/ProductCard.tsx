@@ -7,13 +7,16 @@ import { currency } from '@/lib/utils'
 export function ProductCard({ product }: { product: Product }) {
   const { add } = useCart()
 
+  // normalize path in case some rows missed leading slash
+  const imgSrc = product.image?.startsWith('/') ? product.image : `/${product.image}`
+
   return (
-    // overflow-hidden + rounded keeps the image clipped to the card radius
-    <div className="card p-0 flex flex-col overflow-hidden rounded-2xl">
-      {/* Fixed aspect ratio so all cards align; Image uses fill + object-cover */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden">
+    // Card clips everything
+    <div className="card p-0 flex flex-col rounded-2xl overflow-hidden">
+      {/* Image wrapper ALSO clips (belt + suspenders) */}
+      <div className="relative w-full aspect-[4/3] rounded-t-2xl overflow-hidden">
         <Image
-          src={product.image || '/images/placeholder.jpg'} // e.g. /images/chair.jpg
+          src={imgSrc || '/images/placeholder.jpg'}
           alt={product.name}
           fill
           className="object-cover"
@@ -32,9 +35,7 @@ export function ProductCard({ product }: { product: Product }) {
 
       <div className="px-4 pb-4 flex items-center justify-between">
         <strong>{currency(product.price)}</strong>
-        <button onClick={() => add(product, 1)} className="btn btn-primary">
-          Add to cart
-        </button>
+        <button onClick={() => add(product, 1)} className="btn btn-primary">Add to cart</button>
       </div>
     </div>
   )
