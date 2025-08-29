@@ -37,23 +37,30 @@ export const authConfig: NextAuthConfig = {
   providers,
   pages: { signIn: '/login' },
   callbacks: {
-    async jwt({ token, user }) {
-      // On first sign-in (credentials or google), derive role from DB if not set
-      if (user && !('role' in token)) {
-        const rows = await sql`
-          select role from users where lower(email) = lower(${user.email ?? token.email ?? ''}) limit 1
-        ` as any
-        ;(token as any).role = rows?.[0]?.role ?? 'customer'
-      }
-      // Ensure a role always exists
-      if (!(token as any).role) (token as any).role = 'customer'
-      return token
-    },
-    async session({ session, token }) {
-      (session as any).role = (token as any).role ?? 'customer'
-      return session
+  async jwt({ token, user }) {
+    // persist email onto the token so we can look up role later
+    (token as any).email = (user?.email ?? (token as any).email) as string | undefined;
+
+    const email = (token as any).email as string | undefined;
+    if (email) {
+      const rows = await sql`
+        select role from users
+        where lower(email) = lower(${email})
+        limit 1
+      ` as any;
+      (token as any).role = rows?.[0]?.role ?? 'customer';
+    } else {
+      (token as any).role = (token as any).role ?? 'customer';
     }
+    return token;
+  },
+
+  async session({ session, token }) {
+    (session as any).role = (token as any).role ?? 'customer';
+    return session;
   }
+}
 }
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth(authConfig)
+
