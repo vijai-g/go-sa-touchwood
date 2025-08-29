@@ -1,9 +1,27 @@
+// app/page.tsx
 import Link from 'next/link'
 import Image from 'next/image'
 import { getHomeSettings } from '@/lib/settings'
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
+function Title({ text }: { text: string }) {
+  const lc = text.toLowerCase()
+  const needle = 'touchwood'
+  const i = lc.indexOf(needle)
+  if (i === -1) return <>{text}</>
+  const before = text.slice(0, i)
+  const match = text.slice(i, i + needle.length)
+  const after = text.slice(i + needle.length)
+  return (
+    <>
+      {before}
+      <span className="text-accent">{match}</span>
+      {after}
+    </>
+  )
+}
 
 export default async function HomePage() {
   const s = await getHomeSettings()
@@ -12,16 +30,15 @@ export default async function HomePage() {
   const img = useNextImage ? (
     <Image
       src={s.hero}
-      alt="Signature handcrafted wood pieces"
+      alt={s.title}
       width={1600}
       height={900}
       sizes="(min-width:1024px) 50vw, 100vw"
       priority
-      className="w-full h-auto rounded-2xl"
+      className="w-full h-auto rounded-2xl"  // scales; no crop
     />
   ) : (
-    // data: URLs render fine with <img>; no optimizer needed
-    <img src={s.hero} alt="Signature handcrafted wood pieces" className="w-full h-auto rounded-2xl" />
+    <img src={s.hero} alt={s.title} className="w-full h-auto rounded-2xl" />
   )
 
   return (
@@ -30,7 +47,7 @@ export default async function HomePage() {
       <div className="grid items-center gap-10 md:grid-cols-2 p-4 md:p-8">
         <div className="space-y-6">
           <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-            Go Sa <span className="text-accent">Touchwood</span>
+            <Title text={s.title} />
           </h1>
           <p className="text-lg text-white/80">{s.description}</p>
           <div className="flex gap-3">
@@ -39,6 +56,7 @@ export default async function HomePage() {
           </div>
           <div className="brand-underline w-40" />
         </div>
+
         <div className="rounded-2xl border border-white/10 bg-neutral-900 shadow-2xl">
           {img}
         </div>
