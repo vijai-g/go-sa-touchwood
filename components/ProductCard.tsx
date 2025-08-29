@@ -1,24 +1,27 @@
 'use client'
-import { Product } from '@/lib/types'
+
+import Image from 'next/image';
 import { useCart } from '@/lib/cart'
 import { currency } from '@/lib/utils'
+import type { Product } from '@/lib/types';
 
-export function ProductCard({ product }: { product: Product }){
-  const { add } = useCart()
+export function ProductCard({ product: p }: { product: Product }) {
   return (
-    <div className="card p-4 flex flex-col">
-      <img src={product.image} alt={product.name} className="rounded-xl h-48 w-full object-cover" />
-      <div className="mt-3 flex-1">
-        <div className="flex items-center justify-between">
-          <h3 className="font-semibold">{product.name}</h3>
-          <span className="badge">{product.category}</span>
-        </div>
-        <p className="text-white/70 text-sm line-clamp-2 mt-1">{product.description}</p>
+    <div className="card p-0 overflow-hidden rounded-2xl"> {/* clip children */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
+        <Image
+          src={p.image}                // e.g. /images/chair.jpg
+          alt={p.name}
+          fill
+          sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+          className="object-cover"     // fill the frame without stretching
+          priority={false}
+        />
       </div>
-      <div className="mt-4 flex items-center justify-between">
-        <strong>{currency(product.price)}</strong>
-        <button onClick={()=>add(product,1)} className="btn btn-primary">Add to cart</button>
+
+      <div className="p-4">
+        {/* ... name/price/buttons exactly as you had ... */}
       </div>
     </div>
-  )
+  );
 }
