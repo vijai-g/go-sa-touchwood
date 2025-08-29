@@ -1,11 +1,17 @@
-// app/page.tsx
 import Link from 'next/link'
 import Image from 'next/image'
 import { getHomeSettings } from '@/lib/settings'
 
+// make the page and its metadata dynamic
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
+export async function generateMetadata() {
+  const s = await getHomeSettings()
+  return { title: s.title, description: s.description }
+}
+
+// optional helper to accent just the word “Touchwood”
 function Title({ text }: { text: string }) {
   const lc = text.toLowerCase()
   const needle = 'touchwood'
@@ -14,13 +20,7 @@ function Title({ text }: { text: string }) {
   const before = text.slice(0, i)
   const match = text.slice(i, i + needle.length)
   const after = text.slice(i + needle.length)
-  return (
-    <>
-      {before}
-      <span className="text-accent">{match}</span>
-      {after}
-    </>
-  )
+  return <>{before}<span className="text-accent">{match}</span>{after}</>
 }
 
 export default async function HomePage() {
@@ -35,7 +35,7 @@ export default async function HomePage() {
       height={900}
       sizes="(min-width:1024px) 50vw, 100vw"
       priority
-      className="w-full h-auto rounded-2xl"  // scales; no crop
+      className="w-full h-auto rounded-2xl"
     />
   ) : (
     <img src={s.hero} alt={s.title} className="w-full h-auto rounded-2xl" />
@@ -56,7 +56,6 @@ export default async function HomePage() {
           </div>
           <div className="brand-underline w-40" />
         </div>
-
         <div className="rounded-2xl border border-white/10 bg-neutral-900 shadow-2xl">
           {img}
         </div>
