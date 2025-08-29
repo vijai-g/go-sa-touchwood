@@ -16,15 +16,18 @@ export const metadata: Metadata = {
   icons: { icon: '/favicon.ico' }
 }
 
+// app/layout.tsx
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
+      <body className="min-h-screen flex flex-col">
         <Header />
-        <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
+        <main className="flex-1 relative mx-auto max-w-6xl px-4 py-8">
+          {children}
+        </main>
         <Footer />
-        <Toaster position="top-right" />
       </body>
     </html>
   )
 }
+
