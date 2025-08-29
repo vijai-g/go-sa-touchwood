@@ -10,15 +10,19 @@ export default function MyOrders(){
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">My Orders</h1>
       {(data ?? []).map(o => (
-        <div key={o.orderId} className="card p-4">
-          <div className="flex justify-between">
-            <div>
-              <div className="text-white/80">Order {o.orderId}</div>
-              <div className="badge">{o.status}</div>
-            </div>
-            <div>{new Date(o.createdAt || Date.now()).toLocaleString()}</div>
-          </div>
-        </div>
+// app/(routes)/myorders/page.tsx (inside the map of orders)
+<div key={o.orderId} className="card p-4 space-y-2">
+  <div className="flex items-center justify-between">
+    <div className="font-semibold">{o.items.length} item(s)</div>
+    <div className="font-mono">₹{o.total}</div>
+  </div>
+
+  <div className="text-sm text-white/70">
+    <span className="text-white/90 font-mono">#{o.orderId}</span>
+    <span className="ml-2">• {new Date(o.createdAt).toLocaleString()}</span>
+  </div>
+</div>
+
       ))}
     </div>
   )
