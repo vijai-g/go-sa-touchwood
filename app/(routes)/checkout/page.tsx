@@ -4,7 +4,6 @@ import { currency } from '@/lib/utils'
 import { useState } from 'react'
 
 function makeOrderCode(): string {
-  // e.g. GOSA-250829-123456
   const d = new Date()
   const yy = String(d.getFullYear()).slice(2)
   const mm = String(d.getMonth() + 1).padStart(2, '0')
@@ -25,19 +24,17 @@ export default function CheckoutPage() {
     const name = String(formData.get('name') || '').trim()
     const phone = String(formData.get('phone') || '').trim()
     const address = String(formData.get('address') || '').trim()
-    const deliverySlot = String(formData.get('deliverySlot') || '').trim()
-
     if (!name || !phone || !address) return alert('Name, phone, and address are required.')
 
-    const clientOrderId = makeOrderCode() // friendly fallback; server may return its own
+    const clientOrderId = makeOrderCode()
 
     const order = {
-      orderId: clientOrderId,         // client-generated; server should still generate/validate its own
-      customerId: 'guest',            // replace with session user id when auth-enforced
+      orderId: clientOrderId,
+      customerId: 'guest',
+      name, phone, address,               // use simple names; API also accepts customerName/…
       customerName: name,
       customerPhone: phone,
       customerAddress: address,
-      deliverySlot: deliverySlot || null,
       items: items.map(i => ({
         id: i.product.id,
         name: i.product.name,
@@ -56,14 +53,10 @@ export default function CheckoutPage() {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(order)
       })
-
       const data = await res.json().catch(() => ({} as any))
-      if (!res.ok || data?.ok === false) {
-        throw new Error(data?.error || 'Failed to place order')
-      }
+      if (!res.ok || data?.ok === false) throw new Error(data?.error || 'Failed to place order')
 
       const finalOrderId = data?.orderId || clientOrderId
-      // keep it around for the success page if you want to read it there
       try { localStorage.setItem('lastOrderId', finalOrderId) } catch {}
 
       clear()
@@ -82,15 +75,11 @@ export default function CheckoutPage() {
         <input required name="name" placeholder="Your name" className="px-4 py-3 rounded-xl bg-white/10" />
         <input required name="phone" placeholder="Phone" className="px-4 py-3 rounded-xl bg-white/10" />
         <textarea required name="address" placeholder="Address" className="px-4 py-3 rounded-xl bg-white/10 min-h-28" />
-        <input name="deliverySlot" placeholder="Preferred delivery slot (optional)" className="px-4 py-3 rounded-xl bg-white/10" />
       </div>
 
       <div className="card p-6 space-y-4">
         <h2 className="text-xl font-semibold">Order summary</h2>
-        <div className="flex justify-between">
-          <span>Subtotal</span>
-          <strong>{currency(subtotal)}</strong>
-        </div>
+        <div className="flex justify-between"><span>Subtotal</span><strong>{currency(subtotal)}</strong></div>
         <button className="btn btn-primary w-full" disabled={submitting}>
           {submitting ? 'Placing…' : 'Place order (COD/UPI)'}
         </button>
