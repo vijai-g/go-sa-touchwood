@@ -16,7 +16,6 @@ export function Header(){
           <Link href="/shop">Shop</Link>
           <Link href="/about">About</Link>
           <Link href="/contact">Contact</Link>
-          <Link href="/admin" className="text-accent/90">Admin</Link>
         </nav>
         <div className="flex items-center gap-3">
           <CartBadge />
