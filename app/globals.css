@@ -6,6 +6,7 @@
 /* ---- Base ---- */
 html, body { height: 100%; }
 
+
 /* Solid site background (no gradient on body) */
 body {
   @apply min-h-screen bg-neutral-950 text-white antialiased;
@@ -20,7 +21,13 @@ img { max-width: 100%; height: auto; display: block; }
 .btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 font-medium; }
 .btn-primary { @apply bg-secondary text-primary hover:opacity-90; } /* white bg, black text */
 .btn-ghost { @apply bg-transparent text-secondary border border-white/20 hover:bg-white/10; }
-.badge { @apply text-xs px-2 py-1 rounded-md bg-accent/20 text-accent; }
+/* before: @apply ... bg-accent/20 text-accent; */
+.badge{
+  @apply text-xs px-2 py-1 rounded-md text-accent;
+  background-color: color-mix(in oklab, var(--color-accent) 20%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-accent) 30%, transparent);
+}
+
 
 a { @apply hover:text-accent; }
 
