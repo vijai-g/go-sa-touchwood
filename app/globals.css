@@ -28,4 +28,8 @@ body { @apply min-h-screen text-secondary bg-brand-gradient antialiased; }
 .badge { @apply text-xs px-2 py-1 rounded-md bg-accent/20 text-accent; }
 
 a { @apply hover:text-accent; }
-.brand-underline { background: linear-gradient(90deg, var(--accent), transparent); height: 3px; border-radius: 999px; }
+/* subtle accent underline used in hero */
+.brand-underline { height: 4px; border-radius: 9999px;
+  background-image: linear-gradient(90deg, #FFD700, rgba(255,215,0,.35));
+}
+
