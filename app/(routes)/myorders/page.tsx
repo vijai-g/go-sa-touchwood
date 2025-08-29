@@ -1,29 +1,43 @@
 'use client'
+
 import useSWR from 'swr'
-import { Order } from '@/lib/types'
+import { currency } from '@/lib/utils'
 
-const fetcher = (u:string)=>fetch(u).then(r=>r.json())
+const fetcher = (u: string) => fetch(u, { cache: 'no-store' }).then(r => r.json())
 
-export default function MyOrders(){
-  const { data } = useSWR<Order[]>('/api/orders?mine=1', fetcher)
+export default function MyOrdersPage() {
+  const { data, error, isLoading } = useSWR('/api/orders/me', fetcher)
+  const orders = data ?? []
+
   return (
-    <div className="space-y-4">
+    <section className="space-y-4">
       <h1 className="text-2xl font-bold">My Orders</h1>
-      {(data ?? []).map(o => (
-// app/(routes)/myorders/page.tsx (inside the map of orders)
-<div key={o.orderId} className="card p-4 space-y-2">
-  <div className="flex items-center justify-between">
-    <div className="font-semibold">{o.items.length} item(s)</div>
-    <div className="font-mono">₹{o.total}</div>
-  </div>
 
-  <div className="text-sm text-white/70">
-    <span className="text-white/90 font-mono">#{o.orderId}</span>
-    <span className="ml-2">• {new Date(o.createdAt).toLocaleString()}</span>
-  </div>
-</div>
+      {error && <div className="card p-4">Failed to load orders.</div>}
+      {isLoading && <div className="card p-4">Loading…</div>}
 
-      ))}
-    </div>
+      {!isLoading && !error && orders.length === 0 && (
+        <div className="card p-4">No orders yet.</div>
+      )}
+
+      {!isLoading && !error && orders.length > 0 && (
+        <div className="grid gap-4">
+          {orders.map((o: any) => (
+            <div key={o.orderId} className="card p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-white/70">
+                  <span className="text-white/90 font-mono">#{o.orderId}</span>
+                  <span className="ml-2">• {new Date(o.createdAt).toLocaleString()}</span>
+                </div>
+                <span className="badge">{o.status}</span>
+              </div>
+              <div className="text-white/80">
+                {o.items?.length ?? 0} item(s) • <span className="font-mono">{currency(o.total)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
   )
 }
