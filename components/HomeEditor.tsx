@@ -69,7 +69,7 @@ export default function HomeEditor() {
         body.hero = url.trim(); body.kind = 'url'
       }
       const r = await fetch('/api/settings/home', {
-        method: 'PUT', headers:{'content-type':'application/json'}, body: JSON.stringify(body)
+        method: 'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(body)
       })
       if (!r.ok) throw new Error()
       toast.success('Saved')
