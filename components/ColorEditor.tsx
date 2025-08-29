@@ -5,20 +5,31 @@ import toast from 'react-hot-toast'
 type Theme = { primary:string; secondary:string; accent:string; body:string; card:string }
 const input = 'px-4 py-3 rounded-xl bg-white/10 border border-white/20 w-full'
 
+
 export default function ColorEditor(){
   const [t, setT] = useState<Theme|null>(null)
   const [saving, setSaving] = useState(false)
 
   // live preview via CSS vars
   useEffect(() => {
-    if (!t) return
-    const root = document.documentElement.style
-    root.setProperty('--color-primary',  t.primary)
-    root.setProperty('--color-secondary',t.secondary)
-    root.setProperty('--color-accent',   t.accent)
-    root.setProperty('--color-body',     t.body)
-    root.setProperty('--color-card',     t.card)
+    // inside useEffect that previews on change:
+if (t) {
+  const root = document.documentElement.style
+  const to = (hex:string) => {
+    const h = hex.replace('#',''); const v=(s:string)=>parseInt(s.length===1?s+s:s,16)
+    const r=v(h.slice(0,h.length===3?1:2)), g=v(h.slice(h.length===3?1:2,h.length===3?2:4)), b=v(h.slice(h.length===3?2:4,h.length===3?3:6))
+    return `${r} ${g} ${b}`
+  }
+  root.setProperty('--color-primary',   to(t.primary))
+  root.setProperty('--color-secondary', to(t.secondary))
+  root.setProperty('--color-accent',    to(t.accent))
+  root.setProperty('--color-body',      to(t.body))
+  root.setProperty('--color-card',      to(t.card))
+}
+
   }, [t])
+
+  
 
   useEffect(() => {
     fetch('/api/settings/theme', { cache:'no-store' })
