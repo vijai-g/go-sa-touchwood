@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image'
 import useSWR from 'swr';
 import toast from 'react-hot-toast';
 import { useMemo, useState } from 'react';
@@ -124,23 +125,32 @@ export function AdminDashboard() {
       {isLoading && <div className="text-white/60">Loading…</div>}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map(p => (
-          <div key={p.id} className="card p-4 space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="font-semibold">{p.name}</div>
-              <span className="badge">{p.category}</span>
-            </div>
-            <div className="text-white/70 text-sm line-clamp-2">{p.description}</div>
-            <div className="flex items-center justify-between pt-2">
-              <div>₹{p.price}</div>
-              <div className="flex gap-2">
-                <button onClick={() => onEditClick(p)} className="btn btn-ghost text-white/80">Edit</button>
-                <button onClick={() => onDeleteClick(p)} className="btn btn-ghost text-white/80">Delete</button>
-              </div>
-            </div>
-            <div className="text-xs text-white/40">img: {p.image}</div>
-          </div>
-        ))}
+{products.map((p) => {
+  const src = p.image?.startsWith('/') ? p.image : `/${p.image}`;
+
+  return (
+    <div key={p.id} className="card p-4 space-y-2">
+      {/* NEW: thumbnail that fits inside the card */}
+      <div className="relative w-full h-40 bg-black/20 rounded-xl overflow-hidden">
+        <Image
+          src={src}
+          alt={p.name}
+          fill
+          className="object-contain object-center p-2"
+        />
+      </div>
+
+      <div className="flex items-center justify-between">
+        <div className="font-semibold">{p.name}</div>
+        <span className="badge">{p.category}</span>
+      </div>
+      <div className="text-white/70 text-sm line-clamp-2">{p.description}</div>
+
+      {/* ...price + Edit/Delete buttons... */}
+    </div>
+  );
+})}
+
       </div>
 
       {/* Modal */}
