@@ -28,32 +28,34 @@ export async function GET() {
   return NextResponse.json(rows);
 }
 
+// ...
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session || (session as any).role !== 'admin') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
-
-  const b = (await req.json()) as CreateBody;
-
-  const name = String(b.name ?? '').trim();
-  const description = String(b.description ?? '').trim();
-  const category = String(b.category ?? '').trim() || 'misc';
-  const image = normalizeImagePath(String(b.image ?? ''));
-  const price = Number.parseInt(String(b.price ?? ''), 10);
-  const available = b.available ?? true;
-  const tags = Array.isArray(b.tags) ? b.tags : ['misc'];
-
-  if (!name || !description || Number.isNaN(price) || price < 0) {
-    return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
-  }
+  const body = await req.json().catch(() => null);
+  if (!body) return NextResponse.json({ ok:false, error:'Bad JSON' }, { status:400 });
 
   const id = crypto.randomUUID();
+  const name = (body.name ?? '').trim();
+  const description = (body.description ?? '').trim();
+  const price = Number(body.price ?? 0);
+  const category = (body.category ?? 'misc').trim();
+  const available = Boolean(body.available ?? true);
 
-  await sql`
-    insert into products (id, name, description, price, image, category, tags, available)
-    values (${id}, ${name}, ${description}, ${price}, ${image}, ${category}, ${tags}, ${available})
+  let image = String(body.image ?? '').trim();
+  if (!image) return NextResponse.json({ ok:false, error:'Image required' }, { status:400 });
+
+  const isData = image.startsWith('data:');
+  const isHttp = /^https?:\/\//i.test(image);
+  const isPublic = image.startsWith('/images/');
+  if (!isData && !isHttp && !isPublic) image = `/images/${image}`;
+
+  if (!name || !description || !price) {
+    return NextResponse.json({ ok:false, error:'Missing fields' }, { status:400 });
+  }
+
+  await sql/*sql*/`
+    insert into products (id, name, description, price, image, category, available)
+    values (${id}, ${name}, ${description}, ${price}, ${image}, ${category}, ${available})
   `;
-
-  return NextResponse.json({ ok: true, id });
+  return NextResponse.json({ ok:true, id });
 }
+
