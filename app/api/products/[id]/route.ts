@@ -8,43 +8,34 @@ function normalizeImagePath(p: string) {
   return s.startsWith('/images/') ? s : `/images/${s}`;
 }
 
-// UPDATE (edit)
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await auth();
-  if (!session || (session as any).role !== 'admin') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+// ...
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+  const body = await req.json().catch(() => null);
+  if (!body) return NextResponse.json({ ok:false, error:'Bad JSON' }, { status:400 });
 
-  const id = params.id;
-  const body = await req.json();
+  const name = (body.name ?? '').trim();
+  const description = (body.description ?? '').trim();
+  const price = Number(body.price ?? 0);
+  const category = (body.category ?? 'misc').trim();
+  const available = Boolean(body.available ?? true);
 
-  const name = body.name ? String(body.name).trim() : undefined;
-  const description = body.description ? String(body.description).trim() : undefined;
-  const category = body.category ? String(body.category).trim() : undefined;
-  const image = body.image ? normalizeImagePath(String(body.image)) : undefined;
-  const available = typeof body.available === 'boolean' ? body.available : undefined;
+  let image = String(body.image ?? '').trim();
+  if (!image) return NextResponse.json({ ok:false, error:'Image required' }, { status:400 });
 
-  const price = body.price !== undefined
-    ? Number.parseInt(String(body.price), 10)
-    : undefined;
+  const isData = image.startsWith('data:');
+  const isHttp = /^https?:\/\//i.test(image);
+  const isPublic = image.startsWith('/images/');
+  if (!isData && !isHttp && !isPublic) image = `/images/${image}`;
 
-  if (price !== undefined && (Number.isNaN(price) || price < 0)) {
-    return NextResponse.json({ error: 'Invalid price' }, { status: 400 });
-  }
-
-  await sql`
-    update products set
-      name = coalesce(${name}, name),
-      description = coalesce(${description}, description),
-      price = coalesce(${price}, price),
-      image = coalesce(${image}, image),
-      category = coalesce(${category}, category),
-      available = coalesce(${available}, available)
-    where id = ${id}
+  await sql/*sql*/`
+    update products
+    set name=${name}, description=${description}, price=${price},
+        image=${image}, category=${category}, available=${available}
+    where id=${params.id}
   `;
-
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok:true });
 }
+
 
 // DELETE
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
