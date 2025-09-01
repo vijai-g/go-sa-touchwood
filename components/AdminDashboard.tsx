@@ -167,8 +167,8 @@ export function AdminDashboard() {
     const reader = new FileReader();
     reader.onload = () => {
       const dataUrl = String(reader.result || '');
-      const next = { ...form, imageKind: 'upload', image: dataUrl };
-      setForm(next);
+      // ✅ narrow 'upload' so TS doesn't widen to string
+      setForm(prev => ({ ...prev, imageKind: 'upload' as const, image: dataUrl }));
     };
     reader.readAsDataURL(file);
   }
