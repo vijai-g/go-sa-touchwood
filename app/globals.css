@@ -52,3 +52,24 @@ a { @apply hover:text-accent; }
   background-position: top center;
   background-attachment: fixed;
 }
+
+/* ---- Neutralize leftover dark-theme text/borders ---- */
+@layer utilities {
+  /* force old white text utilities to use primary on light themes */
+  .text-white,
+  .text-white\/90,
+  .text-white\/80,
+  .text-white\/70,
+  .text-white\/60,
+  .text-white\/50 {
+    color: rgb(var(--color-primary)) !important;
+  }
+
+  /* kill old white borders too */
+  .border-white\/10,
+  .border-white\/20,
+  .border-white\/30 {
+    border-color: rgb(var(--color-border)) !important;
+  }
+}
+
