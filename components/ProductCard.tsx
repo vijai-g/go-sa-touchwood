@@ -11,35 +11,30 @@ export function ProductCard({ product }: { product: Product }) {
   const isDataUrl = raw.startsWith('data:')
   const isHttpUrl = /^https?:\/\//i.test(raw)
 
-  // Normalize local file names to /images/<file>
-  const localSrc =
+  // normalize local file names to /images/<file>
+  const src =
     isDataUrl || isHttpUrl
       ? raw
       : raw.startsWith('/images/')
       ? raw
-      : raw.startsWith('/')
-      ? raw
       : raw
-      ? `/images/${raw}`
+      ? `/images/${raw.replace(/^\/+/, '')}`
       : '/images/placeholder.jpg'
 
   return (
-    <div className="rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 shadow-lg">
-
-
-      <div className="relative w-full h-56 sm:h-64 bg-black/20">
+    <article className="card overflow-hidden">
+      {/* fixed-height media box, no clipping */}
+      <div className="relative w-full h-56 sm:h-64 bg-black/5">
         {isDataUrl || isHttpUrl ? (
-          // Bypass next/image for data: and external URLs
           <img
-            src={localSrc}
+            src={src}
             alt={product.name}
             className="w-full h-full object-contain object-center p-2"
             loading="lazy"
           />
         ) : (
-          // Use next/image for /public/images/* (optimized, cached)
           <Image
-            src={localSrc}
+            src={src}
             alt={product.name}
             fill
             className="object-contain object-center p-2"
@@ -51,19 +46,18 @@ export function ProductCard({ product }: { product: Product }) {
 
       <div className="p-4">
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold">{product.name}</h3>
+          <h3 className="font-semibold text-primary">{product.name}</h3>
           <span className="badge">{product.category}</span>
         </div>
-        <p className="text-white/70 text-sm line-clamp-2 mt-1">{product.description}</p>
+        <p className="text-muted text-sm line-clamp-2 mt-1">{product.description}</p>
 
         <div className="mt-4 flex items-center justify-between">
-          <strong>{currency(product.price)}</strong>
+          <strong className="text-primary">{currency(product.price)}</strong>
           <button onClick={() => add(product, 1)} className="btn btn-primary">
             Add to cart
           </button>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
-
