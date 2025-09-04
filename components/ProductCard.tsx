@@ -24,7 +24,8 @@ export function ProductCard({ product }: { product: Product }) {
       : '/images/placeholder.jpg'
 
   return (
-    <div className="card overflow-hidden">
+    <div className="rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 shadow-lg">
+
 
       <div className="relative w-full h-56 sm:h-64 bg-black/20">
         {isDataUrl || isHttpUrl ? (
