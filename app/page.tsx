@@ -1,4 +1,4 @@
-// app/(site)/page.tsx  (or wherever your HomePage is)
+// app/(site)/page.tsx
 import Link from "next/link";
 import Image from "next/image";
 import { getHomeSettings } from "@/lib/settings";
@@ -61,34 +61,41 @@ export default async function HomePage() {
   );
 
   return (
-    <section class="relative z-0 overflow-hidden rounded-3xl">
-      <!-- background layer -->
-      <div aria-hidden="true"
-        class="pointer-events-none absolute inset-0 z-[-1] bg-body bg-brand-gradient bg-no-repeat">
-      </div>
+    <section className="relative z-0 overflow-hidden rounded-3xl">
+      {/* light brand gradient background */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[-1] bg-body bg-brand-gradient bg-no-repeat"
+      />
 
-      <div class="grid items-center gap-10 md:grid-cols-2 p-4 md:p-8">
-        <div class="space-y-6">
-          <h1 class="text-primary text-4xl md:text-6xl font-extrabold leading-tight">
-            Shop Beyond <span class="text-accent">Ordinary</span>
+      <div className="grid items-center gap-10 md:grid-cols-2 p-4 md:p-8">
+        <div className="space-y-6">
+          {/* Kill forced white; keep readable ink. Also lighten the shadow. */}
+          <h1 className="text-primary text-4xl md:text-6xl font-extrabold leading-tight [text-shadow:_0_1px_3px_rgba(0,0,0,.18)]">
+            <Title text={s.title} />
           </h1>
-          <p class="text-primary/80 text-lg">
-            An Online Marketplace For Sustainable Products
+
+          <p className="text-primary/70 text-lg [text-shadow:_0_1px_2px_rgba(0,0,0,.12)]">
+            {s.description}
           </p>
 
-          <div class="flex gap-3">
-            <a class="btn btn-primary" href="/shop">Shop Now</a>
-            <a class="btn btn-ghost" href="/about">About</a>
+          <div className="flex gap-3">
+            <Link href="/shop" className="btn btn-primary">
+              Shop Now
+            </Link>
+            <Link href="/about" className="btn btn-ghost">
+              About
+            </Link>
           </div>
 
-          <div class="brand-underline w-40"></div>
+          <div className="brand-underline w-40" />
         </div>
 
-        <div class="rounded-2xl border border-soft bg-card shadow-2xl">
-          <img src="/images/hero.jpg" alt="Shop Beyond Ordinary" class="w-full h-auto rounded-2xl">
+        {/* Remove hardcoded darks: use bg-card + border-soft */}
+        <div className="rounded-2xl border border-soft bg-card shadow-2xl">
+          {img}
         </div>
       </div>
     </section>
-
   );
 }
