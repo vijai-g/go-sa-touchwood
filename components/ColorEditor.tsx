@@ -67,7 +67,7 @@ if (t) {
 
       <div className="card p-5 space-y-3">
         <div className="text-sm text-white/60">Preview</div>
-        <h2 className="text-2xl font-bold">Go Sa <span className="text-accent">Touchwood</span></h2>
+        <h2 className="text-2xl font-bold">Whi <span className="text-accent">Town</span></h2>
         <p className="text-white/80">Minimal, durable wood essentials. Built for homes that love calm aesthetics.</p>
         <div className="flex gap-2">
           <button className="btn btn-primary">Primary</button>
