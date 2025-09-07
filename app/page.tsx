@@ -61,41 +61,34 @@ export default async function HomePage() {
   );
 
   return (
-    <section className="relative overflow-hidden rounded-3xl">
-      {/* black → brand gradient background */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-brand-gradient"
-      />
+    <section class="relative z-0 overflow-hidden rounded-3xl">
+      <!-- background layer -->
+      <div aria-hidden="true"
+        class="pointer-events-none absolute inset-0 z-[-1] bg-body bg-brand-gradient bg-no-repeat">
+      </div>
 
-      <div className="grid items-center gap-10 md:grid-cols-2 p-4 md:p-8">
-        <div className="space-y-6">
-
-          <h1 className="text-primary text-4xl md:text-6xl font-extrabold leading-tight [text-shadow:_0_2px_8px_rgba(0,0,0,.45)]">
-            <Title text={s.title} />
+      <div class="grid items-center gap-10 md:grid-cols-2 p-4 md:p-8">
+        <div class="space-y-6">
+          <h1 class="text-primary text-4xl md:text-6xl font-extrabold leading-tight">
+            Shop Beyond <span class="text-accent">Ordinary</span>
           </h1>
-
-
-          <p className="text-primary/70 text-lg [text-shadow:_0_1px_4px_rgba(0,0,0,.35)]">
-            {s.description}
+          <p class="text-primary/80 text-lg">
+            An Online Marketplace For Sustainable Products
           </p>
 
-          <div className="flex gap-3">
-            <Link href="/shop" className="btn btn-primary">
-              Shop Now
-            </Link>
-            <Link href="/about" className="btn btn-ghost">
-              About
-            </Link>
+          <div class="flex gap-3">
+            <a class="btn btn-primary" href="/shop">Shop Now</a>
+            <a class="btn btn-ghost" href="/about">About</a>
           </div>
 
-          <div className="brand-underline w-40" />
+          <div class="brand-underline w-40"></div>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-neutral-900 shadow-2xl">
-          {img}
+        <div class="rounded-2xl border border-soft bg-card shadow-2xl">
+          <img src="/images/hero.jpg" alt="Shop Beyond Ordinary" class="w-full h-auto rounded-2xl">
         </div>
       </div>
     </section>
+
   );
 }
