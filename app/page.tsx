@@ -11,27 +11,23 @@ export async function generateMetadata() {
   return { title: s.title, description: s.description };
 }
 
-// Accent just “Touchwood”, otherwise last word
+// Accent “Touchwood”, else last word.
 function Title({ text }: { text?: string }) {
   const t = (text ?? "").trim();
   if (!t) return null;
 
   const lc = t.toLowerCase();
-  const needle = "touchwood";
-  const i = lc.indexOf(needle);
+  const k = "touchwood";
+  const i = lc.indexOf(k);
   if (i !== -1) {
-    const before = t.slice(0, i);
-    const match = t.slice(i, i + needle.length);
-    const after = t.slice(i + needle.length);
     return (
       <>
-        {before}
-        <span className="text-accent">{match}</span>
-        {after}
+        {t.slice(0, i)}
+        <span className="text-accent">{t.slice(i, i + k.length)}</span>
+        {t.slice(i + k.length)}
       </>
     );
   }
-
   const parts = t.split(/\s+/);
   const last = parts.pop()!;
   return (
@@ -62,15 +58,17 @@ export default async function HomePage() {
 
   return (
     <section className="relative overflow-hidden rounded-3xl">
+      {/* gradient behind everything */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-brand-gradient" />
+
       <div className="grid items-center gap-10 md:grid-cols-2 p-4 md:p-8">
-        {/* Force readable text on dark hero */}
-        <div className="space-y-6">
-          <h1 className="!text-white text-4xl md:text-6xl font-extrabold leading-tight drop-shadow">
+        {/* Copy column — force readable text here ONLY */}
+        <div className="space-y-6 relative z-10">
+          <h1 className="!text-white text-4xl md:text-6xl font-extrabold leading-tight [text-shadow:0_2px_10px_rgba(0,0,0,.35)]">
             <Title text={s.title} />
           </h1>
 
-          <p className="!text-white opacity-90 text-lg leading-7 drop-shadow">
+          <p className="!text-white/90 text-lg leading-7 [text-shadow:0_1px_6px_rgba(0,0,0,.3)]">
             {s.description}
           </p>
 
