@@ -25,13 +25,13 @@ export default function MyOrdersPage() {
           {orders.map((o: any) => (
             <div key={o.orderId} className="card p-4 space-y-2">
               <div className="flex items-center justify-between">
-                <div className="text-sm text-white/70">
-                  <span className="text-white/90 font-mono">#{o.orderId}</span>
+                <div className="text-sm text-black/70">
+                  <span className="text-black/90 font-mono">#{o.orderId}</span>
                   <span className="ml-2">• {new Date(o.createdAt).toLocaleString()}</span>
                 </div>
                 <span className="badge">{o.status}</span>
               </div>
-              <div className="text-white/80">
+              <div className="text-black/80">
                 {o.items?.length ?? 0} item(s) • <span className="font-mono">{currency(o.total)}</span>
               </div>
             </div>

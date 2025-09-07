@@ -180,7 +180,7 @@ export function AdminDashboard() {
         <button onClick={onAddClick} className="btn btn-ghost border border-white/20">Add product</button>
       </div>
 
-      {isLoading && <div className="text-white/60">Loading…</div>}
+      {isLoading && <div className="text-black/60">Loading…</div>}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {products.map(p => {
@@ -205,16 +205,16 @@ export function AdminDashboard() {
                 <div className="font-semibold">{p.name}</div>
                 <span className="badge">{p.category}</span>
               </div>
-              <div className="text-white/70 text-sm line-clamp-2">{p.description}</div>
+              <div className="text-black/70 text-sm line-clamp-2">{p.description}</div>
 
               <div className="flex items-center justify-between pt-2">
                 <div>₹{p.price}</div>
                 <div className="flex gap-2">
-                  <button onClick={() => onEditClick(p)} className="btn btn-ghost text-white/80">Edit</button>
-                  <button onClick={() => onDeleteClick(p)} className="btn btn-ghost text-white/80">Delete</button>
+                  <button onClick={() => onEditClick(p)} className="btn btn-ghost text-black/80">Edit</button>
+                  <button onClick={() => onDeleteClick(p)} className="btn btn-ghost text-black/80">Delete</button>
                 </div>
               </div>
-              <div className="text-xs text-white/40 break-all">img: {p.image.slice(0,90)}{p.image.length>90?'…':''}</div>
+              <div className="text-xs text-black/40 break-all">img: {p.image.slice(0,90)}{p.image.length>90?'…':''}</div>
             </div>
           );
         })}
@@ -227,7 +227,7 @@ export function AdminDashboard() {
             <h2 className="text-xl font-semibold">{mode === 'create' ? 'Add product' : 'Edit product'}</h2>
 
             <div className="grid gap-3">
-              <label className="text-sm text-white/80">Name
+              <label className="text-sm text-black/80">Name
                 <input className="mt-1 px-4 py-3 rounded-xl bg-white/10 w-full"
                   value={form.name}
                   onChange={e => setForm({ ...form, name: e.target.value })}
@@ -235,7 +235,7 @@ export function AdminDashboard() {
                 />
               </label>
 
-              <label className="text-sm text-white/80">Price (INR)
+              <label className="text-sm text-black/80">Price (INR)
                 <input className="mt-1 px-4 py-3 rounded-xl bg-white/10 w-full"
                   value={form.price}
                   onChange={e => setForm({ ...form, price: e.target.value })}
@@ -245,7 +245,7 @@ export function AdminDashboard() {
                 />
               </label>
 
-              <label className="text-sm text-white/80">Description
+              <label className="text-sm text-black/80">Description
                 <textarea className="mt-1 px-4 py-3 rounded-xl bg-white/10 w-full min-h-28"
                   value={form.description}
                   onChange={e => setForm({ ...form, description: e.target.value })}
@@ -255,7 +255,7 @@ export function AdminDashboard() {
 
               {/* Image picker */}
               <div>
-                <div className="text-sm text-white/80 mb-2">Product image</div>
+                <div className="text-sm text-black/80 mb-2">Product image</div>
                 <div className="flex flex-wrap gap-2">
                   <button type="button"
                     className={`btn btn-ghost ${form.imageKind==='library'?'border border-white/40':''}`}
@@ -269,7 +269,7 @@ export function AdminDashboard() {
                 </div>
 
                 {form.imageKind === 'library' && (
-                  <label className="block mt-2 text-sm text-white/70">
+                  <label className="block mt-2 text-sm text-black/70">
                     <span>File name (in <code>public/images</code>)</span>
                     <div className="flex gap-2 mt-1">
                       <span className="inline-flex items-center px-3 rounded-xl bg-white/10 select-none">/images/</span>
@@ -281,12 +281,12 @@ export function AdminDashboard() {
                         required
                       />
                     </div>
-                    <p className="text-xs text-white/50 mt-1">Put the file under <code>public/images/</code> and type the name only.</p>
+                    <p className="text-xs text-black/50 mt-1">Put the file under <code>public/images/</code> and type the name only.</p>
                   </label>
                 )}
 
                 {form.imageKind === 'url' && (
-                  <label className="block mt-2 text-sm text-white/70">
+                  <label className="block mt-2 text-sm text-black/70">
                     <span>Image URL (https://…)</span>
                     <input
                       className="mt-1 px-4 py-3 rounded-xl bg-white/10 w-full"
@@ -299,7 +299,7 @@ export function AdminDashboard() {
                 )}
 
                 {form.imageKind === 'upload' && (
-                  <label className="block mt-2 text-sm text-white/70">
+                  <label className="block mt-2 text-sm text-black/70">
                     <span>Choose file (kept inline as data URL)</span>
                     <input
                       type="file"
@@ -308,14 +308,14 @@ export function AdminDashboard() {
                       onChange={e=>onFilePicked(e.target.files?.[0])}
                       required={!form.image}
                     />
-                    <p className="text-xs text-white/50 mt-1">Keep images small (&lt; 800KB) to stay fast & free.</p>
+                    <p className="text-xs text-black/50 mt-1">Keep images small (&lt; 800KB) to stay fast & free.</p>
                   </label>
                 )}
 
                 {/* preview */}
                 {computeFinalImage({}) && (
                   <div className="rounded-xl bg-white/5 p-3 mt-3">
-                    <div className="text-xs mb-1 text-white/60">Preview</div>
+                    <div className="text-xs mb-1 text-black/60">Preview</div>
                     <div className="relative w-full h-40 bg-black/20 rounded-xl overflow-hidden">
                       <img src={computeFinalImage({})} alt="preview" className="w-full h-full object-contain p-2" />
                     </div>
@@ -323,14 +323,14 @@ export function AdminDashboard() {
                 )}
               </div>
 
-              <label className="text-sm text-white/80">Category
+              <label className="text-sm text-black/80">Category
                 <input className="mt-1 px-4 py-3 rounded-xl bg-white/10 w-full"
                   value={form.category}
                   onChange={e => setForm({ ...form, category: e.target.value })}
                 />
               </label>
 
-              <label className="inline-flex items-center gap-2 text-sm text-white/80">
+              <label className="inline-flex items-center gap-2 text-sm text-black/80">
                 <input type="checkbox" checked={form.available}
                   onChange={e => setForm({ ...form, available: e.target.checked })}
                 />

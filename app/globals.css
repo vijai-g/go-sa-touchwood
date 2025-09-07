@@ -68,7 +68,7 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-ghost{
   @apply bg-transparent border rounded-xl;
   border-color: var(--color-border-soft);
-  color: rgb(var(--color-primary));
+  color: rgb(var(--color-forest));
 }
 .btn-ghost:hover{ background-color: rgba(0,0,0,.03); }
 

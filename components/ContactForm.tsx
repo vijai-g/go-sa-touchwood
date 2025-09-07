@@ -4,7 +4,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 const inputCls =
-  'px-4 py-3 rounded-xl bg-white/10 border border-white/20 placeholder-white/50 ' +
+  'px-4 py-3 rounded-xl bg-black/30 border border-black/20 placeholder-black/50 ' +
   'focus:outline-none focus:ring-2 focus:ring-amber-400/60 w-full';
 
 export default function ContactForm() {
@@ -39,7 +39,7 @@ export default function ContactForm() {
     <form onSubmit={onSubmit} className="grid gap-4">
       {/* Layout: inputs in a clean grid */}
       <label className="block">
-        <span className="text-sm text-white/70">Email</span>
+        <span className="text-sm text-black/70">Email</span>
         <input
           type="email"
           autoComplete="email"
@@ -52,7 +52,7 @@ export default function ContactForm() {
       </label>
 
       <label className="block">
-        <span className="text-sm text-white/70">Message</span>
+        <span className="text-sm text-black/70">Message</span>
         <textarea
           placeholder="How can we help?"
           className={inputCls + ' mt-1 min-h-40 resize-y'}
@@ -80,10 +80,10 @@ export default function ContactForm() {
       </div>
 
       {/* Optional: contact info block */}
-      <div className="pt-2 text-sm text-white/50">
+      <div className="pt-2 text-sm text-black/50">
         Prefer WhatsApp?{' '}
         <a
-          className="underline decoration-white/30 hover:decoration-amber-400"
+          className="underline decoration-black/30 hover:decoration-amber-400"
           href={process.env.NEXT_PUBLIC_WHATSAPP_URL || '#'}
           target="_blank"
           rel="noreferrer"
