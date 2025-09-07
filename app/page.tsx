@@ -61,7 +61,7 @@ export default async function HomePage() {
   );
 
   return (
-    <section className="relative z-0 overflow-hidden rounded-3xl">
+    <section className="relative z-0 overflow-hidden rounded-3xl bg-white">
       {/* light brand gradient background */}
       <div
         aria-hidden
