@@ -3,10 +3,7 @@ import Header from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { Toaster } from 'react-hot-toast'
 import type { Metadata } from 'next'
-
 import ThemeClient from '@/components/ThemeClient'
-
-
 
 export const metadata: Metadata = {
   title: 'Go Sa Touchwood',
@@ -20,17 +17,17 @@ export const metadata: Metadata = {
   icons: { icon: '/favicon.ico' }
 }
 
-// app/layout.tsx
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-<body className="min-h-screen flex flex-col">
-  <ThemeClient />
-  <Header />
-  <main className="flex-1 relative mx-auto max-w-6xl px-4 py-8">{children}</main>
-  <Footer />
-</body>
+      {/* Ensure light theme contrast out of the box */}
+      <body className="min-h-screen flex flex-col bg-body text-primary">
+        <ThemeClient />
+        <Header />
+        <main className="flex-1 relative mx-auto max-w-6xl px-4 py-8">{children}</main>
+        <Footer />
+        <Toaster />
+      </body>
     </html>
   )
 }
-

@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className="card overflow-hidden">
-      {/* fixed-height media box, no clipping */}
+      {/* fixed-height media box, neutral bg so images don't wash out */}
       <div className="relative w-full h-56 sm:h-64 bg-black/5">
         {isDataUrl || isHttpUrl ? (
           <img
@@ -47,8 +47,9 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="p-4">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-primary">{product.name}</h3>
-          <span className="badge">{product.category}</span>
+          {product.category ? <span className="badge">{product.category}</span> : null}
         </div>
+
         <p className="text-muted text-sm line-clamp-2 mt-1">{product.description}</p>
 
         <div className="mt-4 flex items-center justify-between">

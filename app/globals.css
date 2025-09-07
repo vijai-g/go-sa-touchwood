@@ -3,13 +3,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---- Runtime theme variables (space-separated RGB triplets) ---- */
+/* ---- Light theme tokens (space-separated RGB) ---- */
 :root{
-  --color-primary:   0 0 0;        /* #000000 */
-  --color-secondary: 255 255 255;  /* #ffffff */
-  --color-accent:    255 215 0;    /* #ffd700 */
-  --color-body:      10 10 10;     /* #0a0a0a */
-  --color-card:      17 17 17;     /* #111111 */
+  /* Your fixed palette */
+  --color-primary:   11 15 12;     /* #0B0F0C (ink: text/nav) */
+  --color-secondary: 255 255 255;  /* #FFFFFF (on-forest/on-accent text) */
+  --color-accent:    211 148 13;   /* #D3940D (accent) */
+  --color-body:      233 241 231;  /* #E9F1E7 (page bg) */
+  --color-card:      250 250 245;  /* #FAFAF5 (card bg) */
+
+  /* CTA green (Cart / WhatsApp / My Orders / Sign out) */
+  --color-forest:    81 102 54;    /* #516636 */
+  --color-forest-h:  67 85 45;     /* hover: #43552D */
+
+  /* Derived neutrals */
+  --ink-70:          11 15 12 / 0.7;
+  --ink-60:          11 15 12 / 0.6;
+
+  /* Soft border on light surfaces */
+  --color-border-soft: color-mix(in srgb, rgb(var(--color-primary)) 12%, white);
+
+  /* Focus rings tuned for light backgrounds */
+  --ring-forest:     color-mix(in srgb, rgb(var(--color-forest)) 45%, white);
+  --ring-accent:     color-mix(in srgb, rgb(var(--color-accent)) 35%, white);
+
+  --shadow-soft:     0 6px 20px rgba(0,0,0,.06);
 }
 
 html, body { height: 100%; }
@@ -17,7 +35,7 @@ html, body { height: 100%; }
 /* Solid site background driven by vars (no gradient on body) */
 body {
   background-color: rgb(var(--color-body));
-  color: rgb(var(--color-secondary));
+  color: rgb(var(--color-primary));
   @apply min-h-screen antialiased;
 }
 
@@ -27,48 +45,65 @@ img { max-width: 100%; height: auto; display: block; }
 /* ---- UI primitives ---- */
 .card {
   background-color: rgb(var(--color-card));
-  @apply rounded-2xl border border-white/10 shadow-lg;
+  border: 1px solid var(--color-border-soft);
+  box-shadow: var(--shadow-soft);
+  @apply rounded-2xl;
 }
 
 .btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 font-medium; }
-.btn-primary { @apply bg-secondary text-primary hover:opacity-90; } /* white bg, black text */
-.btn-ghost { @apply bg-transparent text-secondary border border-white/20 hover:bg-white/10; }
 
-/* Now /opacity works because colors use vars */
-.badge { @apply text-xs px-2 py-1 rounded-md bg-accent/20 text-accent border border-accent/30; }
+/* Primary = your forest CTA everywhere it appears */
+.btn-primary{
+  background-color: rgb(var(--color-forest));
+  color: rgb(var(--color-secondary));
+  border: 1px solid transparent;
+}
+.btn-primary:hover{ background-color: rgb(var(--color-forest-h)); }
+.btn-primary:focus-visible{
+  outline: 2px solid var(--ring-forest);
+  outline-offset: 2px;
+}
 
-a { @apply hover:text-accent; }
+/* Secondary/ghost button for low-emphasis actions */
+.btn-ghost{
+  @apply bg-transparent border rounded-xl;
+  border-color: var(--color-border-soft);
+  color: rgb(var(--color-primary));
+}
+.btn-ghost:hover{ background-color: rgba(0,0,0,.03); }
+
+/* Badges and accent chips */
+.badge{
+  @apply text-xs px-2 py-1 rounded-md;
+  background-color: color-mix(in srgb, rgb(var(--color-accent)) 20%, transparent);
+  color: rgb(var(--color-accent));
+  border: 1px solid color-mix(in srgb, rgb(var(--color-accent)) 30%, transparent);
+}
+
+/* Links use accent but keep strong contrast */
+a { color: rgb(var(--color-primary)); }
+a:hover { color: rgb(var(--color-accent)); }
 
 /* Subtle accent underline (uses accent var) */
 .brand-underline {
   height: 4px; border-radius: 9999px;
   background-image:
-    linear-gradient(90deg, rgb(var(--color-accent)), color-mix(in oklab, rgb(var(--color-accent)) 35%, transparent));
+    linear-gradient(90deg, rgb(var(--color-accent)),
+      color-mix(in oklab, rgb(var(--color-accent)) 35%, transparent));
 }
 
-/* Gradient utility – use on sections (NOT on <body>) */
+/* Optional section gradient (NOT on <body>) */
 .bg-brand-gradient{
   background-repeat: no-repeat;
   background-position: top center;
   background-attachment: fixed;
 }
 
-/* ---- Neutralize leftover dark-theme text/borders ---- */
+/* ---- Utilities ---- */
 @layer utilities {
-  /* force old white text utilities to use primary on light themes */
-  .text-white,
-  .text-white\/90,
-  .text-white\/80,
-  .text-white\/70,
-  .text-white\/60,
-  .text-white\/50 {
-    color: rgb(var(--color-primary)) !important;
-  }
-
-  /* kill old white borders too */
-  .border-white\/10,
-  .border-white\/20,
-  .border-white\/30 {
-    border-color: rgb(var(--color-border)) !important;
-  }
+  .text-muted { color: color(from rgb(var(--color-primary)) srgb r g b / 0.7); } /* ~ink-70 */
+  .text-ink   { color: rgb(var(--color-primary)); }
+  .bg-body    { background-color: rgb(var(--color-body)); }
+  .bg-card    { background-color: rgb(var(--color-card)); }
+  .border-soft{ border-color: var(--color-border-soft); }
 }
