@@ -70,13 +70,13 @@ export default async function HomePage() {
 
       <div className="grid items-center gap-10 md:grid-cols-2 p-4 md:p-8">
         <div className="space-y-6">
-          {/* IMPORTANT: force white so it wins over any global heading color */}
-          <h1 className="!text-white text-4xl md:text-6xl font-extrabold leading-tight [text-shadow:_0_2px_8px_rgba(0,0,0,.45)]">
+
+          <h1 className="text-primary text-4xl md:text-6xl font-extrabold leading-tight [text-shadow:_0_2px_8px_rgba(0,0,0,.45)]">
             <Title text={s.title} />
           </h1>
 
-          {/* also force white/80 here to avoid theme ink overriding */}
-          <p className="!text-white/80 text-lg [text-shadow:_0_1px_4px_rgba(0,0,0,.35)]">
+
+          <p className="text-primary/70 text-lg [text-shadow:_0_1px_4px_rgba(0,0,0,.35)]">
             {s.description}
           </p>
 
