@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { getHomeSettings } from "@/lib/settings";
 
-// Make the page and its metadata dynamic
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -12,12 +11,11 @@ export async function generateMetadata() {
   return { title: s.title, description: s.description };
 }
 
-// Optional helper to accent just the word “Touchwood”
+// Accent just “Touchwood”, otherwise last word
 function Title({ text }: { text?: string }) {
   const t = (text ?? "").trim();
   if (!t) return null;
 
-  // 1) If title contains “Touchwood” (any case), accent just that piece
   const lc = t.toLowerCase();
   const needle = "touchwood";
   const i = lc.indexOf(needle);
@@ -34,7 +32,6 @@ function Title({ text }: { text?: string }) {
     );
   }
 
-  // 2) Otherwise, accent the last word
   const parts = t.split(/\s+/);
   const last = parts.pop()!;
   return (
@@ -67,22 +64,21 @@ export default async function HomePage() {
     <section className="relative overflow-hidden rounded-3xl">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-brand-gradient" />
       <div className="grid items-center gap-10 md:grid-cols-2 p-4 md:p-8">
-        {/* Force readable text on dark hero surfaces */}
-        <div className="space-y-6 text-white">
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow">
+        {/* Force readable text on dark hero */}
+        <div className="space-y-6">
+          <h1 className="!text-white text-4xl md:text-6xl font-extrabold leading-tight drop-shadow">
             <Title text={s.title} />
           </h1>
-          <p className="text-lg leading-7 opacity-90 drop-shadow">
+
+          <p className="!text-white opacity-90 text-lg leading-7 drop-shadow">
             {s.description}
           </p>
+
           <div className="flex gap-3">
-            <Link href="/shop" className="btn btn-primary">
-              Shop Now
-            </Link>
-            <Link href="/about" className="btn btn-ghost">
-              About
-            </Link>
+            <Link href="/shop" className="btn btn-primary">Shop Now</Link>
+            <Link href="/about" className="btn btn-ghost">About</Link>
           </div>
+
           <div className="brand-underline w-40" />
         </div>
 
