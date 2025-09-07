@@ -4,7 +4,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 const inputCls =
-  'px-4 py-3 rounded-xl bg-black/30 border border-black/20 placeholder-black/50 ' +
+  'px-4 py-3 rounded-xl bg-black/80 border border-black/20 placeholder-black/50 ' +
   'focus:outline-none focus:ring-2 focus:ring-amber-400/60 w-full';
 
 export default function ContactForm() {

@@ -23,7 +23,7 @@ export default function CartPage(){
           </div>
           <div className="flex-1">
             <h3 className="font-semibold">{product.name}</h3>
-            <p className="text-white/70">{currency(product.price)}</p>
+            <p className="text-black/70">{currency(product.price)}</p>
           </div>
           <input type="number" min={1} value={quantity} onChange={e=>setQty(product.id, Number(e.target.value)||1)} className="w-20 px-3 py-2 rounded-lg bg-white/10" />
           <button onClick={()=>remove(product.id)} className="btn btn-ghost">Remove</button>
