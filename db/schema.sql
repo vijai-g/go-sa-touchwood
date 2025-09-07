@@ -28,12 +28,3 @@ create table if not exists orders (
   status text not null check (status in ('pending','paid','shipped','cancelled')) default 'pending',
   created_at timestamptz not null default now()
 );
-
-insert into users (user_id,email,password_hash,role) values
-('1','admin@gosatouchwood.com','$2a$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36hb7p0URRZ5EixZaYVK1f','admin')
-on conflict (email) do nothing;
-
-insert into products (id,name,description,price,image,category,tags,available) values
-('p1','Classic Wooden Chair','Handcrafted wooden chair with natural polish',3500,'/images/chair.jpg','furniture',array['wood','chair','handmade'],true),
-('p2','Dining Table Set','Solid wood dining table with 4 chairs',12000,'/images/table.jpg','furniture',array['wood','table','set'],true)
-on conflict (id) do nothing;

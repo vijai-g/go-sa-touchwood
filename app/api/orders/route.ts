@@ -11,7 +11,7 @@ function makeOrderCode() {
   const mm = String(d.getMonth()+1).padStart(2,'0')
   const dd = String(d.getDate()).padStart(2,'0')
   const rnd = Math.floor(Math.random()*1_000_000).toString().padStart(6,'0')
-  return `GOSA-${yy}${mm}${dd}-${rnd}`
+  return `WT-${yy}${mm}${dd}-${rnd}`
 }
 
 export async function POST(req: Request) {

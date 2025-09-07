@@ -8,32 +8,9 @@ const usersFile = path.join(dataDir, 'users.json');
 const productsFile = path.join(dataDir, 'products.json');
 const ordersFile = path.join(dataDir, 'orders.json');
 
-const defaultUsers = [{
-  userId: '1',
-  email: 'admin@gosatouchwood.com',
-  passwordHash: '$2a$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36hb7p0URRZ5EixZaYVK1f',
-  role: 'admin'
-}];
+const defaultUsers = [{}];
 
-const defaultProducts = [{
-  id: 'p1',
-  name: 'Classic Wooden Chair',
-  description: 'Handcrafted wooden chair with natural polish',
-  price: 3500,
-  image: '/images/chair.jpg',
-  category: 'furniture',
-  tags: ['wood','chair','handmade'],
-  available: true
-}, {
-  id: 'p2',
-  name: 'Dining Table Set',
-  description: 'Solid wood dining table with 4 chairs',
-  price: 12000,
-  image: '/images/table.jpg',
-  category: 'furniture',
-  tags: ['wood','table','set'],
-  available: true
-}];
+const defaultProducts = [{}];
 
 const defaultOrders: any[] = [];
 

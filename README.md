@@ -11,9 +11,6 @@ cp .env.example .env.local  # fill NEON_DATABASE_URL, NEXTAUTH_SECRET, NEXT_PUBL
 pnpm dev
 ```
 
-### Admin Login
-- email: admin@gosatouchwood.com
-- password: password
 
 ## Deploy on Vercel (₹0)
 1. Create a Neon DB (free) → copy `NEON_DATABASE_URL`.
@@ -22,7 +19,7 @@ pnpm dev
    - `NEON_DATABASE_URL`
    - `NEXTAUTH_SECRET` (strong random)
    - `PAYMENTS_MODE=cod`
-   - `NEXT_PUBLIC_WHATSAPP_URL=https://wa.me/<YOUR_NUMBER>?text=Hi%20GoSaTouchwood`
+   - `NEXT_PUBLIC_WHATSAPP_URL=https://wa.me/<YOUR_NUMBER>?text=Hi%20WhiTown`
 4. Push this repo to GitHub.
 5. Import in Vercel → Deploy.
 

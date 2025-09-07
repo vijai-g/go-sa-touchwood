@@ -8,7 +8,7 @@ import ThemeClient from '@/components/ThemeClient'
 export const metadata: Metadata = {
   title: 'Go Sa Touchwood',
   description: 'Handcrafted wood, minimal aesthetics, daily utility.',
-  metadataBase: new URL('https://gosatouchwood.com'),
+  metadataBase: new URL('https://whitown.com'),
   openGraph: {
     title: 'Go Sa Touchwood',
     description: 'Handcrafted wood, minimal aesthetics, daily utility.',
