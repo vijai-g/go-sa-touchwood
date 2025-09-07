@@ -1,75 +1,44 @@
-/* app/globals.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* ---- Runtime theme variables (space-separated RGB triplets) ---- */
+/* === Brand palette (hard-coded) === */
 :root{
-  --color-primary:   0 0 0;        /* #000000 */
-  --color-secondary: 255 255 255;  /* #ffffff */
-  --color-accent:    255 215 0;    /* #ffd700 */
-  --color-body:      10 10 10;     /* #0a0a0a */
-  --color-card:      17 17 17;     /* #111111 */
+  --primary: #516636;       /* chips/buttons: Cart / WhatsApp / My Orders / Sign out */
+  --ink:     #0b0f0c;       /* header links (Shop/About/Contact), product text */
+  --accent:  #d3940d;       /* accent */
+  --bg-body: #E9F1E7;       /* page background */
+  --bg-card: #FAFAF5;       /* product card background */
 }
 
-html, body { height: 100%; }
+/* Base */
+html, body { background: var(--bg-body); color: var(--ink); }
+a { color: inherit; }
 
-/* Solid site background driven by vars (no gradient on body) */
-body {
-  background-color: rgb(var(--color-body));
-  color: rgb(var(--color-secondary));
-  @apply min-h-screen antialiased;
+/* Buttons – keep your existing .btn styles if you have them; these are safe overrides */
+.btn{ 
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:.5rem; border-radius:9999px; padding:.5rem .9rem; font-weight:600;
+  transition:.2s ease-in-out;
+  border:1px solid transparent;
 }
 
-/* Image safety */
-img { max-width: 100%; height: auto; display: block; }
+/* Primary (accent gold if you prefer, switch to var(--accent)) */
+.btn-primary{
+  background: var(--primary); color:#fff; border-color: var(--primary);
+}
+.btn-primary:hover{ filter:brightness(0.92); }
 
-/* ---- UI primitives ---- */
-.card {
-  background-color: rgb(var(--color-card));
-  @apply rounded-2xl border border-white/10 shadow-lg;
+/* Ghost (outlined) chips in header */
+.btn-chip{
+  background: transparent; color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 65%, #fff);
+}
+.btn-chip:hover{
+  background: var(--primary); color:#fff;
 }
 
-.btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 font-medium; }
-.btn-primary { @apply bg-secondary text-primary hover:opacity-90; } /* white bg, black text */
-.btn-ghost { @apply bg-transparent text-secondary border border-white/20 hover:bg-white/10; }
-
-/* Now /opacity works because colors use vars */
-.badge { @apply text-xs px-2 py-1 rounded-md bg-accent/20 text-accent border border-accent/30; }
-
-a { @apply hover:text-accent; }
-
-/* Subtle accent underline (uses accent var) */
-.brand-underline {
-  height: 4px; border-radius: 9999px;
-  background-image:
-    linear-gradient(90deg, rgb(var(--color-accent)), color-mix(in oklab, rgb(var(--color-accent)) 35%, transparent));
+/* Subtle button (text/icon only) */
+.btn-ghost{
+  background: transparent; color: var(--ink);
 }
+.btn-ghost:hover{ background: rgba(0,0,0,.06); }
 
-/* Gradient utility – use on sections (NOT on <body>) */
-.bg-brand-gradient{
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-attachment: fixed;
-}
-
-/* ---- Neutralize leftover dark-theme text/borders ---- */
-@layer utilities {
-  /* force old white text utilities to use primary on light themes */
-  .text-white,
-  .text-white\/90,
-  .text-white\/80,
-  .text-white\/70,
-  .text-white\/60,
-  .text-white\/50 {
-    color: rgb(var(--color-primary)) !important;
-  }
-
-  /* kill old white borders too */
-  .border-white\/10,
-  .border-white\/20,
-  .border-white\/30 {
-    border-color: rgb(var(--color-border)) !important;
-  }
-}
-
+/* Card */
+.card{ background: var(--bg-card); color: var(--ink); border:1px solid rgba(0,0,0,.06); border-radius:1rem; }
